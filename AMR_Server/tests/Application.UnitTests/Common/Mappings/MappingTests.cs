@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AMR_Server.Application.Common.Mappings;
-using AMR_Server.Application.TodoLists.Queries.GetTodos;
 using AMR_Server.Domain.Entities;
 using NUnit.Framework;
 using System;
@@ -29,8 +28,6 @@ namespace AMR_Server.Application.UnitTests.Common.Mappings
         }
         
         [Test]
-        [TestCase(typeof(TodoList), typeof(TodoListDto))]
-        [TestCase(typeof(TodoItem), typeof(TodoItemDto))]
         public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
         {
             var instance = Activator.CreateInstance(source);

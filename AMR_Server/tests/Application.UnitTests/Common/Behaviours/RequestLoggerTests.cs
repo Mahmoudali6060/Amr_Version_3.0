@@ -1,6 +1,6 @@
-﻿using AMR_Server.Application.Common.Behaviours;
+﻿using AMR_Server.Application.Account.Commands.Login;
+using AMR_Server.Application.Common.Behaviours;
 using AMR_Server.Application.Common.Interfaces;
-using AMR_Server.Application.TodoItems.Commands.CreateTodoItem;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
@@ -32,7 +32,7 @@ namespace AMR_Server.Application.UnitTests.Common.Behaviours
 
             var requestLogger = new LoggingBehaviour<LoginCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
 
-            await requestLogger.Process(new LoginCommand { ListId = 1, Title = "title" }, new CancellationToken());
+            await requestLogger.Process(new LoginCommand { Id = new System.Guid(), UserName = "Admin@123" }, new CancellationToken());
 
             _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<string>()), Times.Once);
         }
@@ -42,7 +42,7 @@ namespace AMR_Server.Application.UnitTests.Common.Behaviours
         {
             var requestLogger = new LoggingBehaviour<LoginCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
 
-            await requestLogger.Process(new LoginCommand { ListId = 1, Title = "title" }, new CancellationToken());
+            await requestLogger.Process(new LoginCommand { Id = new System.Guid(), UserName = "Admin@123" }, new CancellationToken());
 
             _identityService.Verify(i => i.GetUserNameAsync(null), Times.Never);
         }
