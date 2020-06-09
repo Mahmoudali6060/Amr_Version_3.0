@@ -1,0 +1,62 @@
+<div *ngIf="total > 0" class="row">
+  <div class="col-lg-7">
+    <nav aria-label="Page navigation" *ngIf="pagination.currentPage != 0">
+      <ul class="pagination pagination-separate pagination-curved">
+        <li class="page-item" tooltip="{{'First'|translate}}"
+          [ngClass]="{'disabled not-allow': pagination.currentPage == 1}">
+          <a class="page-link" aria-label="First" [ngx-scroll-to]="'#'+scroll" (click)="change('first');">
+            <span aria-hidden="true">
+              <i class="fa fa-angle-double-{{(fixed.activeLang.dir == 'ltr')? 'left':'right'}}"></i>
+            </span>
+            <span class="sr-only">{{'First'|translate}}</span>
+          </a>
+        </li>
+        <li class="page-item" tooltip="{{'Previous'|translate}}"
+          [ngClass]="{'disabled not-allow': pagination.currentPage == 1}">
+          <a class="page-link" aria-label="Previous" [ngx-scroll-to]="'#'+scroll" (click)="change('min');">
+            <span aria-hidden="true">
+              <i class="fa fa-angle-{{(fixed.activeLang.dir == 'ltr')? 'left':'right'}}"></i>
+            </span>
+            <span class="sr-only">{{'Previous'|translate}}</span>
+          </a>
+        </li>
+        <li class="page-item" *ngFor="let page of pagination?.list" tooltip="{{page}}"
+          [ngClass]="{'active white': page == pagination?.currentPage}">
+          <a class="page-link" (click)="change('list',page)" [ngx-scroll-to]="'#'+scroll">{{page}}</a></li>
+        <li class="page-item" tooltip="{{'Next'|translate}}"
+          [ngClass]="{'disabled not-allow':pagination.currentPage == pagination.lastPage}">
+          <a class="page-link" aria-label="Previous" [ngx-scroll-to]="'#'+scroll" (click)="change('plus');">
+            <span aria-hidden="true">
+              <i class="fa fa-angle-{{(fixed.activeLang.dir == 'ltr')? 'right':'left'}}"></i>
+            </span>
+            <span class="sr-only">{{'Next'|translate}}</span>
+          </a>
+        </li>
+        <li class="page-item" tooltip="{{'Last'|translate}}"
+          [ngClass]="{'disabled not-allow':pagination.currentPage == pagination.lastPage}">
+          <a class="page-link" aria-label="Next" [ngx-scroll-to]="'#'+scroll" (click)="change('last');">
+            <span aria-hidden="true">
+              <i class="fa fa-angle-double-{{(fixed.activeLang.dir == 'ltr')? 'right':'left'}}"></i>
+            </span>
+            <span class="sr-only">{{'Last'|translate}}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="col-lg-5">
+    <div class="btn-group">
+      <!-- <button type="button" class="btn btn-outline-secondary dropdown-toggle btn-sm" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">{{pagination.recordPerPageName | translate}}</button> -->
+      <div class="dropdown-menu">
+        <a class="dropdown-item" *ngFor="let item of fixed.recordPerPage" [ngx-scroll-to]="'#'+scroll"
+          (click)="pagination.recordPerPageName=item.label;pagination.recordPerPage=item.value;change('recordPerPage',1)">
+          {{item.label | translate}}</a>
+      </div>
+      <div style="margin: 4px 10px;">
+        {{'Displaying'|translate}} {{pagination.from}} - {{pagination.to}}
+        {{'Of'|translate}} {{pagination.total}} {{'Records'|translate}}
+      </div>
+    </div>
+  </div>
+</div>

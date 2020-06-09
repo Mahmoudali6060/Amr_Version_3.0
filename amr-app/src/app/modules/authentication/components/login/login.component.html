@@ -1,0 +1,45 @@
+<!-- WRAPPER -->
+<div class="vertical-align-wrap">
+  <div class="vertical-align-middle">
+    <div class="auth-box ">
+      <div class="left">
+        <div class="content">
+          <div class="header">
+            <div class="logo text-center">
+              <!-- <img width="400" height="200" alt="Klorofil Logo" src="assets/img/login.jpg"> -->
+            </div>
+            <p class="lead">Login</p>
+            <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div>
+          </div>
+          <form class="form-auth-small" #loginForm="ngForm" (ngSubmit)="login(loginForm);clicked=true">
+            <div class="form-group">
+              <label for="signin-email" class="control-label sr-only">اسم المستخدم او الايميل</label>
+              <input type="email" id="username" name="username" ngModel class="form-control" placeholder="User Name" required autofocus>
+            </div>
+            <div class="form-group">
+              <label for="signin-password" class="control-label sr-only">كلمة المرور</label>
+              <input type="password" id="password" name="password" ngModel class="form-control" placeholder="Password" required>
+            </div>
+            <button (click)="login(loginForm);clicked=true" type="button" class="btn btn-primary btn-lg btn-block">Login </button>
+            <h4>
+              <a [routerLink]="['/register']">
+                <span translate>Create New Account</span>
+              </a>
+            </h4>
+          </form>
+        </div>
+      </div>
+      <div class="right">
+        <div class="overlay"></div>
+        <div class="content text">
+          <!-- <h1 class="heading"> Mohamed Hegzy
+            <span style="color:#a54c00">Group</span>
+          </h1> -->
+          <p></p>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<!-- END WRAPPER -->

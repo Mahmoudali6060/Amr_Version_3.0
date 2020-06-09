@@ -1,0 +1,234 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+/* @import '~@angular/material/prebuilt-themes/deeppurple-amber.css'; */
+@import "https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700";
+@import '~ngx-toastr/toastr';
+
+body{
+    /* font-size: 20px !important; */
+}
+.auth-box .right .heading{
+    font-size: 50px !important;
+    font-weight: 600 !important;
+    font-family: monospace !important;
+}
+
+.btn-group, .btn-group-vertical{
+    width: 100%;
+}
+
+thead{
+    background-color: rgb(20, 24, 29);
+    color: white;
+}
+
+.fa-list{
+    background-color: rgb(241, 245, 248);
+    color: rgb(6, 103, 214);
+    font-size: 20px;
+}
+
+.fa-trash{
+    background-color: rgb(241, 245, 248);
+    color: rgb(241, 11, 11);
+    font-size: 20px;
+    
+}
+
+.fa-pencil{
+    background-color: rgb(241, 245, 248);
+    color: rgb(0, 175, 44);
+    font-size: 20px;
+    
+}
+
+#SupplierTotal ,#ClientTotal{
+    background-color: rgb(57, 82, 129);
+    font-weight: bold;
+    color: #ffffff;
+}
+
+
+.profit{
+    background-color:green !important;
+    color: white !important;
+}
+
+.loss{
+    background-color:red !important;
+    color: white !important;
+}
+
+
+.transaction-profit{
+    background-color:green !important;
+    color: white !important;
+}
+
+.transaction-loss{
+    background-color:red !important;
+    color: white !important;
+}
+
+.input-container {
+    display: -ms-flexbox; /* IE10 */
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .icon {
+    padding: 10px;
+    background: dodgerblue;
+    color: white;
+    min-width: 50px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+  }
+  
+  .input-field:focus {
+    border: 2px solid dodgerblue;
+  }
+
+  .ng-select {
+    width: 100%;
+  }
+
+  .panel .panel-body{
+    overflow-x: auto;
+  }
+
+  .table{
+    white-space: nowrap;
+  }
+
+  .btn-new-record{
+    margin: 0.5%;
+    margin-left: 2%;
+    background-color: #2B337F;
+  }
+
+  .input-warning{
+      background-color: red !important;
+      color: white !important;
+  }
+  
+  .mainContent{
+    margin-top: -35px;
+  }
+
+  .pagination{
+      margin-top: auto !important;
+  }
+
+  .header-m{
+    font-size: 19px;
+    margin-top: 28px;
+    font-weight: bold;
+  }
+
+  table { 
+	width: 98%; 
+	border-collapse: collapse; 
+	margin:50px auto;
+	margin-top: -9px;
+	overflow-x:auto;
+	margin-bottom: 0px;
+	}
+
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+	background: #eee; 
+	}
+
+th { 
+	background: #bec5c5; 
+	color: black; 
+	font-weight: bold; 
+	}
+
+td, th { 
+	padding: 10px; 
+	border: 1px solid #ccc; 
+	text-align: left; 
+	font-size: 18px;
+	}
+
+	
+/* 
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	table { 
+	  	width: 100%; 
+	}
+
+	/* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	tr { border: 1px solid #ccc; }
+	
+	td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+	}
+
+	td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		/* Label the data */
+		content: attr(data-column);
+
+		color: #000;
+		font-weight: bold;
+	}
+
+}
+
+.lbl-success{
+    /* color: green; */
+}
+
+.lbl-warning{
+    /* color: red; */
+}
+
+.center {
+    text-align: center;
+    align-content: center;
+}
+
+.link{
+    cursor: pointer;
+    text-decoration: underline;
+}

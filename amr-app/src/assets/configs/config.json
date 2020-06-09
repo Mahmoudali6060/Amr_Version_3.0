@@ -1,0 +1,6 @@
+{
+    "config": {
+        "baseServiceUrl": "https://localhost:44312/",
+        "hostIp": "192.168.1.1"
+    }
+}

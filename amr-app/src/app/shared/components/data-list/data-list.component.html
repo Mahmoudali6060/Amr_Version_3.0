@@ -1,0 +1,43 @@
+<div style="overflow-x: scroll;">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th *ngFor="let property of properties">
+                    <span translate>{{property}}</span>
+                </th>
+                <th *ngIf="!isReadonly">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>#</th>
+                <th *ngFor="let property of properties">
+                    <input type="text" id="{{property}}" name="{{property}}" [(ngModel)]="model[property]" class="form-control" type="text" (ngModelChange)="applyFilter()">
+                </th>
+                <th *ngIf="!isReadonly"></th>
+            </tr>
+            <tr *ngFor="let item of list;let i = index">
+                <td>{{i+1}}</td>
+                <td *ngFor="let property of properties" data-colmun="property">
+                    <ng-container *ngIf="property.includes('Date'); else notDate">
+                        {{item[property] | date:"dd/MM/yyyy"}}
+                    </ng-container>
+                    <ng-template #notDate>
+                        {{item[property]}}
+                    </ng-template>
+                </td>
+                <td *ngIf="!isReadonly">
+                    <i class="fa fa-pencil" (click)="edit(item.Id)"></i>
+                    <i class=" fa fa-trash " (click)="showConfirmDialog(item.Id) "></i>
+                    <i *ngFor="let action of actions" class="{{action.icon}}" (click)="onActionClicked(action,item.Id)"></i>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<app-pagination [total]="total " (changePagination)="onChangePagination($event) ">
+</app-pagination>
+
+<!-- <app-confirmation-dialog (confirmDeleteEmitter)="delete($event) "></app-confirmation-dialog> -->

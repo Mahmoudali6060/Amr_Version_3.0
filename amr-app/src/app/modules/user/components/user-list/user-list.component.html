@@ -1,0 +1,37 @@
+<mat-toolbar color="accent" layout-align-md="center end">
+  <span class="demo-toolbar">Users Test</span>
+</mat-toolbar>
+<mat-card style="margin-bottom: 60px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <input type="text" id="Keywork" name="Keywork" [(ngModel)]="dataSource.Keyword" class="form-control" placeholder="{{ 'Keywork' | translate }}">
+      </div>
+      <div class="col-lg-2">
+        <button type="button" class="btn btn-info" (click)="search()" translate>Search</button>
+      </div>
+      <div class="col-lg-2">
+        <button type="button" class="btn btn-info" (click)="exportAsXLSX()" translate>Export To Excel</button>
+      </div>
+      <div class="col-lg-2">
+        <button type="button" class="btn btn-info" (click)="generatePdf()" translate>Export To PDF</button>
+      </div>
+    </div>
+    <div class="row" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+      <div id="users">
+        <div class="card-body" *ngFor="let user of allUser;let i = index">
+          <h4 class="card-title">{{user.emailId}}</h4>
+          <h3 style="float:right;">{{i+1}}</h3>
+          <p class="card-text">{{user.address}}</p>
+          <p class="card-text">
+            <small class="text-muted">{{user.userName}}</small>
+          </p>
+        </div>
+      </div>
+      <div class="center">
+        <a class="link" (click)="onScroll()">Show more</a>
+      </div>
+    </div>
+    <h1> Total:{{allUser.length}} rows</h1>
+  </div>
+</mat-card>
