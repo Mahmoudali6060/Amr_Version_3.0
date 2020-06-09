@@ -1,5 +1,4 @@
 ﻿using AMR_Server.Application.Common.Interfaces;
-using AMR_Server.Infrastructure.Files;
 using AMR_Server.Infrastructure.Identity;
 using AMR_Server.Infrastructure.Persistence;
 using AMR_Server.Infrastructure.Services;
@@ -14,18 +13,21 @@ namespace AMR_Server.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase("Clean_ArchitectureDb"));
-            }
-            else
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(
-                        configuration.GetConnectionString("DefaultConnection"),
-                        b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-            }
+            //if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+            //{
+            //    services.AddDbContext<ApplicationDbContext>(options =>
+            //        options.UseInMemoryDatabase("Clean_ArchitectureDb"));
+            //}
+            //else
+            //{
+            //    services.AddDbContext<ApplicationDbContext>(options =>
+            //        options.UseSqlServer(
+            //            configuration.GetConnectionString("DefaultConnection"),
+            //            b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+            //}
+            services.AddDbContext<ApplicationDbContext>(options =>
+                                      
+                  options.UseOracle(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
@@ -37,7 +39,6 @@ namespace AMR_Server.Infrastructure
 
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<IIdentityService, IdentityService>();
-            services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();

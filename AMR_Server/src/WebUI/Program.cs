@@ -31,9 +31,7 @@ namespace AMR_Server.WebUI
                     }                   
 
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-
                     await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager);
-                    await ApplicationDbContextSeed.SeedSampleDataAsync(context);
                 }
                 catch (Exception ex)
                 {

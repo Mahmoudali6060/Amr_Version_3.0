@@ -44,8 +44,8 @@ namespace AMR_Server.WebUI
             });
             //>>>END Cors Origin
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            // options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 
             // Replace the existing scoped IPasswordHasher<> implementation
