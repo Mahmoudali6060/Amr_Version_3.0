@@ -3,16 +3,15 @@ using System.Collections.Generic;
 
 namespace AMR_Server.Domain.Entities
 {
-    public partial class City
+    public partial class MeterStatus
     {
-        public City()
+        public MeterStatus()
         {
-            DeviceDma = new HashSet<DeviceDma>();
-            DeviceGroup = new HashSet<DeviceGroup>();
+            Meter = new HashSet<Meter>();
         }
 
-        public decimal CityId { get; set; }
-        public string CityName { get; set; }
+        public decimal StatusId { get; set; }
+        public string StatusName { get; set; }
         public bool? IsActive { get; set; }
         public string Comments { get; set; }
         public bool? DeleteStatus { get; set; }
@@ -21,7 +20,8 @@ namespace AMR_Server.Domain.Entities
         public short? UpdatedUserId { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
-        public virtual ICollection<DeviceDma> DeviceDma { get; set; }
-        public virtual ICollection<DeviceGroup> DeviceGroup { get; set; }
+        public virtual Users CreatedUser { get; set; }
+        public virtual Users UpdatedUser { get; set; }
+        public virtual ICollection<Meter> Meter { get; set; }
     }
 }
