@@ -16,9 +16,9 @@ namespace AMR_Server.Application.Account.Commands.Register
 
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, string>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IAmrDbContext _context;
         private readonly IIdentityService _identityService;
-        public RegisterCommandHandler(IApplicationDbContext context, IIdentityService identityService)
+        public RegisterCommandHandler(IAmrDbContext context, IIdentityService identityService)
         {
             _context = context;
             _identityService = identityService;

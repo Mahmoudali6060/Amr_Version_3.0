@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AMR_Server.Application.Common.Interfaces
 {
-    public interface IApplicationDbContext
+    public interface IAmrDbContext
     {
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

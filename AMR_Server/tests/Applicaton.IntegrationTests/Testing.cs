@@ -70,7 +70,7 @@ public class Testing
     {
         using var scope = _scopeFactory.CreateScope();
 
-        var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+        var context = scope.ServiceProvider.GetService<AmrDbContext>();
 
         context.Database.Migrate();
     }
@@ -115,7 +115,7 @@ public class Testing
     {
         using var scope = _scopeFactory.CreateScope();
 
-        var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+        var context = scope.ServiceProvider.GetService<AmrDbContext>();
 
         return await context.FindAsync<TEntity>(id);
     }
@@ -125,7 +125,7 @@ public class Testing
     {
         using var scope = _scopeFactory.CreateScope();
 
-        var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+        var context = scope.ServiceProvider.GetService<AmrDbContext>();
 
         context.Add(entity);
 

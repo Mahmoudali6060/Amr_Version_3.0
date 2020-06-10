@@ -20,9 +20,9 @@ namespace AMR_Server.Infrastructure.Identity
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ApplicationDbContext _context;
+        private readonly AmrDbContext _context;
 
-        public IdentityService(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public IdentityService(UserManager<ApplicationUser> userManager, AmrDbContext context)
         {
             _userManager = userManager;
             _context = context;

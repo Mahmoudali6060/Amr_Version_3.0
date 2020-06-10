@@ -15,27 +15,27 @@ namespace AMR_Server.Infrastructure
         {
             //if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             //{
-            //    services.AddDbContext<ApplicationDbContext>(options =>
+            //    services.AddDbContext<AmrDbContext>(options =>
             //        options.UseInMemoryDatabase("Clean_ArchitectureDb"));
             //}
             //else
             //{
-            //    services.AddDbContext<ApplicationDbContext>(options =>
+            //    services.AddDbContext<AmrDbContext>(options =>
             //        options.UseSqlServer(
             //            configuration.GetConnectionString("DefaultConnection"),
-            //            b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+            //            b => b.MigrationsAssembly(typeof(AmrDbContext).Assembly.FullName)));
             //}
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<AmrDbContext>(options =>
                                       
                   options.UseOracle(configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            services.AddScoped<IAmrDbContext>(provider => provider.GetService<AmrDbContext>());
 
                 services.AddDefaultIdentity<ApplicationUser>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>();
+                    .AddEntityFrameworkStores<AmrDbContext>();
             
             services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                .AddApiAuthorization<ApplicationUser, AmrDbContext>();
 
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<IIdentityService, IdentityService>();

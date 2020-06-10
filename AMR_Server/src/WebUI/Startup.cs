@@ -44,7 +44,7 @@ namespace AMR_Server.WebUI
             });
             //>>>END Cors Origin
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
+            //services.AddDbContext<AmrDbContext>(options =>
             // options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 
@@ -63,7 +63,7 @@ namespace AMR_Server.WebUI
             services.AddHttpContextAccessor();
 
             services.AddHealthChecks()
-                .AddDbContextCheck<ApplicationDbContext>();
+                .AddDbContextCheck<AmrDbContext>();
 
             services.AddControllersWithViews(options =>
                 options.Filters.Add(new ApiExceptionFilter()));

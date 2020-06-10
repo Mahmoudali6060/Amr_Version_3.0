@@ -15,13 +15,13 @@ using System.Threading.Tasks;
 
 namespace AMR_Server.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
+    public class AmrDbContext : ApiAuthorizationDbContext<ApplicationUser>, IAmrDbContext
     {
         private readonly ICurrentUserService _currentUserService;
         private readonly IDateTime _dateTime;
         private IDbContextTransaction _currentTransaction;
 
-        public ApplicationDbContext(
+        public AmrDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions,
             ICurrentUserService currentUserService,

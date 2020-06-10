@@ -17,9 +17,9 @@ namespace AMR_Server.Application.Account.Commands.Login
 
     public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IAmrDbContext _context;
         private readonly IIdentityService _identityService;
-        public LoginCommandHandler(IApplicationDbContext context, IIdentityService identityService)
+        public LoginCommandHandler(IAmrDbContext context, IIdentityService identityService)
         {
             _context = context;
             _identityService = identityService;

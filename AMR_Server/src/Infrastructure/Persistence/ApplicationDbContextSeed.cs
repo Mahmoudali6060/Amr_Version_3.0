@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AMR_Server.Infrastructure.Persistence
 {
-    public static class ApplicationDbContextSeed
+    public static class AmrDbContextSeed
     {
         public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager)
         {

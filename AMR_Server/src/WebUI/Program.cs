@@ -23,7 +23,7 @@ namespace AMR_Server.WebUI
 
                 try
                 {
-                    var context = services.GetRequiredService<ApplicationDbContext>();
+                    var context = services.GetRequiredService<AmrDbContext>();
 
                     if (context.Database.IsSqlServer())
                     {
@@ -31,7 +31,7 @@ namespace AMR_Server.WebUI
                     }                   
 
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-                    await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager);
+                    await AmrDbContextSeed.SeedDefaultUserAsync(userManager);
                 }
                 catch (Exception ex)
                 {
