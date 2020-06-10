@@ -100,7 +100,7 @@ namespace AMR_Server.Infrastructure.Identity
         }
 
 
-        public string AuthenticateAD(string userName, string password)
+        public async Task<string> AuthenticateAD(string userName, string password)
         {
             using (var context = new PrincipalContext(ContextType.Domain, "197.50.225.151", userName, password))
             {
@@ -116,7 +116,7 @@ namespace AMR_Server.Infrastructure.Identity
 
                         if (user == null)
                         {
-                            return GetUserAD(foundUser, password);
+                            return await GetUserAD(foundUser, password);
                         }
                         else
                         {
@@ -127,7 +127,7 @@ namespace AMR_Server.Infrastructure.Identity
             }
             return null;
         }
-        private string GetUserAD(UserPrincipal foundUser, string _password)
+        private async Task<string> GetUserAD(UserPrincipal foundUser, string _password)
         {
             if (foundUser != null)
             {
@@ -137,13 +137,10 @@ namespace AMR_Server.Infrastructure.Identity
                     UserName = foundUser.SamAccountName
                 };
                 user.Token = GenerateToken(user.ID);
-                CreateUserAsync(foundUser.SamAccountName, _password);//
+                await CreateUserAsync(foundUser.SamAccountName, _password);//
                 return user.Token;
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
         internal string GetPassword(string Password)
         {

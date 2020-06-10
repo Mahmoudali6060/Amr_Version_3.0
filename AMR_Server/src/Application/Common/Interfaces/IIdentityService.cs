@@ -10,7 +10,7 @@ namespace AMR_Server.Application.Common.Interfaces
         Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password);
         Task<Result> DeleteUserAsync(string userId);
         Task<string> Login(string username, string password);
-        string AuthenticateAD(string userName, string password);
+        Task<string> AuthenticateAD(string userName, string password);
         Task<string> Register(string username, string password);
 
     }

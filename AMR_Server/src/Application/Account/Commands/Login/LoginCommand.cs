@@ -30,7 +30,7 @@ namespace AMR_Server.Application.Account.Commands.Login
             //request.Token = await _identityService.Login(request.UserName, request.Password);
             //if (string.IsNullOrEmpty(request.Token))
             //{
-            request.Token = _identityService.AuthenticateAD(request.UserName, request.Password);
+            request.Token =await _identityService.AuthenticateAD(request.UserName, request.Password);
             //}
             return request;
         }
