@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AMR_Server.Domain.Entities
 {
-    public partial class Devicecodes
+    public partial class DeviceCodes
     {
         public string Usercode { get; set; }
         public string Devicecode { get; set; }

@@ -8,7 +8,7 @@ export const routes: Routes = [
     component: FullLayoutComponent,
     children: [
       { path: 'dashboard', loadChildren: () => import('../modules/dashboard/dashboard.module').then(m => m.DashboardModule) },
-      { path: 'user', loadChildren: () => import('../modules/user/user.module').then(m => m.UserModule) },
+      { path: 'meter', loadChildren: () => import('../modules/meter/meter.module').then(m => m.MeterModule) },
     ]
   }
 ];

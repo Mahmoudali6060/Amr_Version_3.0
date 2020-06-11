@@ -39,7 +39,6 @@ namespace AMR_Server.Infrastructure.Persistence
         public virtual DbSet<AlarmCode> AlarmCode { get; set; }
         public virtual DbSet<AlarmLevel> AlarmLevel { get; set; }
         public virtual DbSet<Area> Area { get; set; }
-        public virtual DbSet<Aspnetroleclaims> Aspnetroleclaims { get; set; }
         //public virtual DbSet<Aspnetroles> Aspnetroles { get; set; }
         //public virtual DbSet<Aspnetuserclaims> Aspnetuserclaims { get; set; }
         //public virtual DbSet<Aspnetuserlogins> Aspnetuserlogins { get; set; }
@@ -52,7 +51,7 @@ namespace AMR_Server.Infrastructure.Persistence
         public virtual DbSet<DeviceDma> DeviceDma { get; set; }
         public virtual DbSet<DeviceGroup> DeviceGroup { get; set; }
         public virtual DbSet<DeviceQueueAction> DeviceQueueAction { get; set; }
-        public virtual DbSet<Devicecodes> Devicecodes { get; set; }
+        public virtual DbSet<DeviceCodes> DeviceCodes { get; set; }
         public virtual DbSet<EditableColumn> EditableColumn { get; set; }
         public virtual DbSet<ErrorInfo> ErrorInfo { get; set; }
         public virtual DbSet<ErrorLog> ErrorLog { get; set; }
@@ -190,9 +189,9 @@ namespace AMR_Server.Infrastructure.Persistence
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             modelBuilder.HasDefaultSchema("AMR");
-          
 
-            //base.OnModelCreating(modelBuilder);
+
+            base.OnModelCreating(modelBuilder);
             //modelBuilder.Entity<ApplicationUser>().ToTable("ASPNETUSERS");
             //modelBuilder.Entity<IdentityRole>().ToTable("ASPNETROLES");
             //modelBuilder.Entity<IdentityUserRole<string>>().ToTable("ASPNETUSERROLES");
@@ -871,7 +870,7 @@ namespace AMR_Server.Infrastructure.Persistence
                     .HasConstraintName("METER_QUEUE_ACTION_FK3");
             });
 
-            modelBuilder.Entity<Devicecodes>(entity =>
+            modelBuilder.Entity<DeviceCodes>(entity =>
             {
                 entity.HasKey(e => e.Usercode);
 

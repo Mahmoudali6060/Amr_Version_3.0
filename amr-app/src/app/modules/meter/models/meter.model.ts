@@ -1,4 +1,4 @@
-export class UserModel {
+export class MeterModel {
     UserId: number;
     UserName: string;
     EmailId: string;
