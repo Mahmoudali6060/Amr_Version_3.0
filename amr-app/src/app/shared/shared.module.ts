@@ -22,6 +22,7 @@ import { AuthGuardService } from './guards/auth-guard.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HelperService } from './services/helper.service';
 import { ExcelService } from 'src/app/shared/services/excel.service';
+import { DetailsDialogComponent } from 'src/app/shared/components/Details-dialog/Details-dialog.component';
 
 @NgModule({
 
@@ -61,17 +62,19 @@ import { ExcelService } from 'src/app/shared/services/excel.service';
     PaginationComponent,
     DataListComponent,
     MaterialModule,
-
+    DetailsDialogComponent
     // ModalBasicComponent
   ],
   declarations: [
     ConfirmationDialogComponent,
     PaginationComponent,
-    DataListComponent
+    DataListComponent,
+    DetailsDialogComponent
   ],
   entryComponents: [
     ConfirmationDialogComponent,
-    DataListComponent
+    DataListComponent,
+    DetailsDialogComponent
   ],
   providers: [
     BsModalService,

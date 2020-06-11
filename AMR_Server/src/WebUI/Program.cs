@@ -25,10 +25,7 @@ namespace AMR_Server.WebUI
                 {
                     var context = services.GetRequiredService<AmrDbContext>();
 
-                    if (context.Database.IsSqlServer())
-                    {
-                        context.Database.Migrate();
-                    }                   
+                            
 
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     await AmrDbContextSeed.SeedDefaultUserAsync(userManager);

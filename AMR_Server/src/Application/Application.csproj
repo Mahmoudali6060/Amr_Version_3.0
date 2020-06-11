@@ -21,6 +21,8 @@
 
   <ItemGroup>
     <Folder Include="Common\Mappings\" />
+    <Folder Include="MeterVendors\Commands\" />
+    <Folder Include="Meters\Commands\" />
   </ItemGroup>
 
 </Project>
