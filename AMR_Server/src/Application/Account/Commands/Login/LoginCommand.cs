@@ -1,7 +1,9 @@
 ﻿using AMR_Server.Application.Common.Interfaces;
 using AMR_Server.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,6 +32,8 @@ namespace AMR_Server.Application.Account.Commands.Login
             //request.Token = await _identityService.Login(request.UserName, request.Password);
             //if (string.IsNullOrEmpty(request.Token))
             //{
+            var data = await _context.City
+  .ToListAsync(cancellationToken);
             request.Token =await _identityService.AuthenticateAD(request.UserName, request.Password);
             //}
             return request;

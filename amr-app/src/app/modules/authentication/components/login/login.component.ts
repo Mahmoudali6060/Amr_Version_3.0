@@ -22,9 +22,15 @@ export class LoginComponent {
     let credentials = JSON.stringify(form.value);
     this.authService.login(credentials).subscribe(response => {
       let token = (<any>response).Token;
-      localStorage.setItem("jwt", token);
-      this.invalidLogin = false;
-      this.router.navigate(["/layout/dashboard"]);
+      if(token){
+        localStorage.setItem("jwt", token);
+        this.invalidLogin = false;
+        this.router.navigate(["/layout/dashboard"]);
+      }
+      else{
+        this.invalidLogin = true;
+      }
+     
     }, err => {
       this.invalidLogin = true;
     });
