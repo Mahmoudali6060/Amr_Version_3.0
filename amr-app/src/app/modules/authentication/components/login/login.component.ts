@@ -21,7 +21,7 @@ export class LoginComponent {
 
     let credentials = JSON.stringify(form.value);
     this.authService.login(credentials).subscribe(response => {
-      let token = (<any>response).Token;
+      let token = (<any>response).token;
       if(token){
         localStorage.setItem("jwt", token);
         this.invalidLogin = false;

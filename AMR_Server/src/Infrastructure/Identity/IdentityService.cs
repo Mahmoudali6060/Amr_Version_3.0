@@ -135,10 +135,10 @@ namespace AMR_Server.Infrastructure.Identity
         {
             if (foundUser != null)
             {
-                var user = _userManager.Users.SingleOrDefault(x => x.UserName == foundUser.SamAccountName && x.PasswordHash == UserManagerExtensions.EncodePasswordToBase64(password));
+                var user = _userManager.Users.SingleOrDefault(x => x.UserName == foundUser.SamAccountName && x.PasswordHash == UserManagerExtensions.EncodePasswordToBase64(UserManagerExtensions.EncodePasswordToBase64(password)));
                 if (user == null)
                 {
-                    CreateUserAD(foundUser, password);
+                    CreateUserAD(foundUser, UserManagerExtensions.EncodePasswordToBase64(password));
                 }
                 return GenerateToken(foundUser.Guid.ToString());
             }
