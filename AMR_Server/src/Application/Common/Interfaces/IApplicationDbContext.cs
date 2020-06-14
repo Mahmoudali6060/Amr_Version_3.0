@@ -61,7 +61,6 @@ namespace AMR_Server.Application.Common.Interfaces
         public DbSet<Unit> Unit { get; set; }
         public DbSet<UserGroup> UserGroup { get; set; }
         public DbSet<UserRole> UserRole { get; set; }
-        public DbSet<Users> Users { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

@@ -1,18 +1,18 @@
 ﻿using System.Threading.Tasks;
-using AMR_Server.Application.MeterVendors.Queries;
+using AMR_Server.Application.DeviceVendors.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AMR_Server.WebUI.Controllers
 {
-    [Route("Api/MeterVendor")]
+    [Route("Api/DeviceVendor")]
     [ApiController]
-    public class MeterVendorController : ApiController
+    public class DeviceVendorController : ApiController
     {
-        [Route("GetVedndorDetailsByIdAsync/{id}")]
+        [Route("GetDeviceVendorDetailsByIdAsync/{id}")]
         [HttpGet]
-        public async Task<IActionResult> GetVedndorDetailsByIdAsync(int id)
+        public async Task<IActionResult> GetDeviceVendorDetailsByIdAsync(int id)
         {
-            var vendor=await Mediator.Send(new GetVedndorDetailsByIdQuery() {VendorId=id });
+            var vendor=await Mediator.Send(new GetDeviceVendorDetailsByIdQuery() {VendorId=id });
             return Ok(vendor);
         }
     }

@@ -89,7 +89,7 @@ namespace AMR_Server.Infrastructure.Persistence
         public virtual DbSet<Unit> Unit { get; set; }
         public virtual DbSet<UserGroup> UserGroup { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
+        //public virtual DbSet<Users> Users { get; set; }
 
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

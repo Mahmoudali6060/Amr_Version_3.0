@@ -6,11 +6,11 @@ import { HttpHelperService } from 'src/app/shared/services/http-heler.service';
 import { DataSourceModel } from 'src/app/shared/models/data-source.model';
 
 @Injectable()
-export class MeterVendorService {
+export class DeviceVendorService {
   constructor(private http: HttpClient, private httpHelperService: HttpHelperService) { }
 
-  getVedndorDetailsByIdAsync(id): Observable<any> {
-    return this.http.get<any>(`${this.httpHelperService.baseUrl}Api/MeterVendor/GetVedndorDetailsByIdAsync/${id}`);
+  getDeviceVendorDetailsByIdAsync(id): Observable<any> {
+    return this.http.get<any>(`${this.httpHelperService.baseUrl}Api/DeviceVendor/GetDeviceVendorDetailsByIdAsync/${id}`);
   }
 
 }

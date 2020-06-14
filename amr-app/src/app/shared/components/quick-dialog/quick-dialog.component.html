@@ -1,6 +1,6 @@
-<div mat-dialog-content>
+<div mat-dialog-content *ngIf="quickDialogService.quickData">
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title" translate>{{data.title}}</h4>
+        <h4 class="modal-title" id="modal-basic-title" translate>{{quickDialogService.quickData.title}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -10,15 +10,15 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th *ngFor="let column of data.columns">
+                        <th *ngFor="let column of quickDialogService.quickData.columns">
                             <span translate>{{column}}</span>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td *ngFor="let column of data.columns;let i=index">
-                            {{data.entity[column]}}
+                        <td *ngFor="let column of quickDialogService.quickData.columns;let i=index">
+                            {{quickDialogService.quickData.entity[column]}}
                         </td>
                     </tr>
                 </tbody>
