@@ -6,7 +6,7 @@ import { AuthGuardService } from 'src/app/shared/guards/auth-guard.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MeterService } from './services/meter.service';
 import { ReportModule } from 'src/app/modules/report/report.module';
-import { MeterVendorService } from 'src/app/modules/meter/services/meter-vendor.service';
+import { DeviceVendorService } from 'src/app/modules/meter/services/device-vendor.service';
 
 @NgModule({
   imports: [
@@ -24,7 +24,7 @@ import { MeterVendorService } from 'src/app/modules/meter/services/meter-vendor.
   providers: [
     AuthGuardService,
     MeterService,
-    MeterVendorService
+    DeviceVendorService
   ]
 })
 

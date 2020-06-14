@@ -48,7 +48,9 @@ namespace AMR_Server.Infrastructure.Identity
                 UserName = username,
                 Email = username
             };
-            var passwordHash = UserManagerExtensions.HashPassword(_userManager, applicationUser, password);
+            var passwordHash = UserManagerExtensions.EncodePasswordToBase64(password);
+            var decodedPassword = UserManagerExtensions.DecodeFrom64(passwordHash);
+
             ///
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == username && u.PasswordHash == passwordHash);
             if (user != null)
@@ -72,8 +74,9 @@ namespace AMR_Server.Infrastructure.Identity
                 Email = userName,
             };
 
-            await _userManager.SetMd5PasswordForUser(user, password);
-            var result = await _userManager.CreateAsync(user, password);
+
+            await _userManager.CreateAsync(user, password);
+            var result = await _userManager.SetMd5PasswordForUser(user, password);
 
             return (result.ToApplicationResult(), user.Id);
         }
@@ -127,20 +130,32 @@ namespace AMR_Server.Infrastructure.Identity
             }
             return null;
         }
-        private async Task<string> GetUserAD(UserPrincipal foundUser, string _password)
+
+        private async Task<string> GetUserAD(UserPrincipal foundUser, string password)
         {
             if (foundUser != null)
             {
-                var user = new User
+                var user = _userManager.Users.SingleOrDefault(x => x.UserName == foundUser.SamAccountName && x.PasswordHash == UserManagerExtensions.EncodePasswordToBase64(password));
+                if (user == null)
                 {
-                    ID = foundUser.Guid.Value.ToString(),
-                    UserName = foundUser.SamAccountName
-                };
-                user.Token = GenerateToken(user.ID);
-                await CreateUserAsync(foundUser.SamAccountName, _password);//
-                return user.Token;
+                    CreateUserAD(foundUser, password);
+                }
+                return GenerateToken(foundUser.Guid.ToString());
             }
             return null;
+        }
+
+        private async void CreateUserAD(UserPrincipal foundUser, string _password)
+        {
+            if (foundUser != null)
+            {
+                //var user = new User
+                //{
+                //    ID = foundUser.Guid.Value.ToString(),
+                //    UserName = foundUser.SamAccountName
+                //};
+                await CreateUserAsync(foundUser.SamAccountName, _password);//
+            }
         }
         internal string GetPassword(string Password)
         {

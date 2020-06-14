@@ -17,12 +17,15 @@ import { MaterialModule } from '../shared/modules/material.module';
 import { PaginationComponent } from '../shared/components/pagination/pagination.component';
 import { DataListComponent } from '../shared/components/data-list/data-list.component';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
-import { MatDialogModule, MatDialogRef } from '@angular/material';
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HelperService } from './services/helper.service';
 import { ExcelService } from 'src/app/shared/services/excel.service';
-import { DetailsDialogComponent } from 'src/app/shared/components/Details-dialog/Details-dialog.component';
+import { QuickDialogComponent } from 'src/app/shared/components/quick-dialog/quick-dialog.component';
+import { QuickDialogService } from 'src/app/shared/services/quick-dialog.service';
+import { DeviceVendorService } from 'src/app/modules/meter/services/device-vendor.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
 
@@ -41,8 +44,7 @@ import { DetailsDialogComponent } from 'src/app/shared/components/Details-dialog
     OrderModule,
     NgbModule,
     MaterialModule,
-
-
+    MatDialogModule
   ],
 
   exports: [
@@ -62,26 +64,32 @@ import { DetailsDialogComponent } from 'src/app/shared/components/Details-dialog
     PaginationComponent,
     DataListComponent,
     MaterialModule,
-    DetailsDialogComponent
+    QuickDialogComponent,
+    MatDialogModule
     // ModalBasicComponent
   ],
   declarations: [
     ConfirmationDialogComponent,
     PaginationComponent,
     DataListComponent,
-    DetailsDialogComponent
+    QuickDialogComponent
   ],
   entryComponents: [
     ConfirmationDialogComponent,
     DataListComponent,
-    DetailsDialogComponent
+    QuickDialogComponent
   ],
   providers: [
     BsModalService,
     DatePipe,
     AuthGuardService,
     HelperService,
-    ExcelService
+    ExcelService,
+    DeviceVendorService,
+    QuickDialogService,
+    NgbActiveModal, 
+    { provide: MatDialogRef, useValue: {} },
+    { provide: MAT_DIALOG_DATA, useValue: {} },
   ],
 })
 export class SharedModule {
