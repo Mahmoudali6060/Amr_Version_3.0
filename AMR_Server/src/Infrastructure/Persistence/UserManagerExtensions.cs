@@ -9,7 +9,7 @@ namespace AMR_Server.Infrastructure.Persistence
 {
     public static class UserManagerExtensions
     {
-        public static async Task<IdentityResult> SetMd5PasswordForUser(
+        public static async Task<IdentityResult> SetPasswordHashForUser(
             this UserManager<ApplicationUser> userManager,
             ApplicationUser user,
             string md5Password)
