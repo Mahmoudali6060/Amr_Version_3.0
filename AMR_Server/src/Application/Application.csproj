@@ -23,6 +23,7 @@
     <Folder Include="Common\Mappings\" />
     <Folder Include="DeviceVendors\Commands\" />
     <Folder Include="Meters\Commands\" />
+    <Folder Include="UserBasicDatas\Queries\" />
   </ItemGroup>
 
 </Project>

@@ -14,9 +14,9 @@ namespace AMR_Server.Domain.Entities
         public short? UpdatedUserId { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
-        public virtual Users CreatedUser { get; set; }
+        public virtual UserBasicData CreatedUser { get; set; }
         public virtual Page Page { get; set; }
         public virtual Privilege Privilege { get; set; }
-        public virtual Users UpdatedUser { get; set; }
+        public virtual UserBasicData UpdatedUser { get; set; }
     }
 }

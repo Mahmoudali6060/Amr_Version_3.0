@@ -60,14 +60,14 @@ namespace AMR_Server.Domain.Entities
         public decimal? ConnectingStatus { get; set; }
         public string Column2 { get; set; }
 
-        public virtual Users CreatedUser { get; set; }
+        public virtual UserBasicData CreatedUser { get; set; }
         public virtual DeviceDma Dma { get; set; }
         public virtual DeviceGroup Group { get; set; }
         public virtual MeterStatus MeterStatus { get; set; }
         public virtual MeterType MeterType { get; set; }
         public virtual MeterModel Model { get; set; }
         public virtual SimCardList SimCardNoNavigation { get; set; }
-        public virtual Users UpdatedUser { get; set; }
+        public virtual UserBasicData UpdatedUser { get; set; }
         public virtual MeterVendor Vendor { get; set; }
         public virtual ICollection<DeviceQueueAction> DeviceQueueAction { get; set; }
         public virtual ICollection<MeterAlarm> MeterAlarm { get; set; }

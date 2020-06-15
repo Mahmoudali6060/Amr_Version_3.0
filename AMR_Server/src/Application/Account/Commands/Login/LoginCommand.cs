@@ -29,13 +29,7 @@ namespace AMR_Server.Application.Account.Commands.Login
 
         public async Task<LoginCommand> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            //request.Token = await _identityService.Login(request.UserName, request.Password);
-            //if (string.IsNullOrEmpty(request.Token))
-            //{
-            var data = await _context.City
-  .ToListAsync(cancellationToken);
-            request.Token =await _identityService.AuthenticateAD(request.UserName, request.Password);
-            //}
+            request.Token = await _identityService.AuthenticateAD(request.UserName, request.Password);
             return request;
         }
     }

@@ -11,12 +11,6 @@ namespace AMR_Server.Application.Common.Interfaces
         public DbSet<AlarmCode> AlarmCode { get; set; }
         public DbSet<AlarmLevel> AlarmLevel { get; set; }
         public DbSet<Area> Area { get; set; }
-        //public  DbSet<Aspnetroles> Aspnetroles { get; set; }
-        //public  DbSet<Aspnetuserclaims> Aspnetuserclaims { get; set; }
-        //public  DbSet<Aspnetuserlogins> Aspnetuserlogins { get; set; }
-        //public  DbSet<Aspnetuserroles> Aspnetuserroles { get; set; }
-        //public  DbSet<Aspnetusers> Aspnetusers { get; set; }
-        //public  DbSet<Aspnetusertokens> Aspnetusertokens { get; set; }
         public DbSet<CcbMeters> CcbMeters { get; set; }
         public DbSet<City> City { get; set; }
         public DbSet<ConnectingStatus> ConnectingStatus { get; set; }
@@ -61,6 +55,8 @@ namespace AMR_Server.Application.Common.Interfaces
         public DbSet<Unit> Unit { get; set; }
         public DbSet<UserGroup> UserGroup { get; set; }
         public DbSet<UserRole> UserRole { get; set; }
+        public DbSet<UserBasicData> UserBasicData { get; set; }
+
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

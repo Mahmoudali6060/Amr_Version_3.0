@@ -26,10 +26,10 @@ namespace AMR_Server.Domain.Entities
         public bool? IsInvalidRead { get; set; }
 
         public virtual Unit ConsumptionUnit { get; set; }
-        public virtual Users CreatedUser { get; set; }
+        public virtual UserBasicData CreatedUser { get; set; }
         public virtual Gateway Gateway { get; set; }
         public virtual Meter Meter { get; set; }
         public virtual ObisData Obis { get; set; }
-        public virtual Users UpdatedUser { get; set; }
+        public virtual UserBasicData UpdatedUser { get; set; }
     }
 }

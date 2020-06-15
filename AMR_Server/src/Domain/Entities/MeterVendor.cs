@@ -22,8 +22,8 @@ namespace AMR_Server.Domain.Entities
         public short? UpdatedUserId { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
-        public virtual Users CreatedUser { get; set; }
-        public virtual Users UpdatedUser { get; set; }
+        public virtual UserBasicData CreatedUser { get; set; }
+        public virtual UserBasicData UpdatedUser { get; set; }
         public virtual ICollection<Gateway> Gateway { get; set; }
         public virtual ICollection<Meter> Meter { get; set; }
         public virtual ICollection<MeterModel> MeterModel { get; set; }

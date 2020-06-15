@@ -18,11 +18,13 @@ using NSwag.Generation.Processors.Security;
 using System.Linq;
 using AMR_Server.Infrastructure.Security;
 using Microsoft.AspNetCore.Identity;
+using AMR_Server.Infrastructure.Configurations;
 
 namespace AMR_Server.WebUI
 {
     public class Startup
     {
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -44,9 +46,7 @@ namespace AMR_Server.WebUI
             });
             //>>>END Cors Origin
 
-            //services.AddDbContext<AmrDbContext>(options =>
-            // options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.Configure<Settings>(Configuration.GetSection("Settings"));//To set Settings section from AppSettings.json to Settings class
 
             // Replace the existing scoped IPasswordHasher<> implementation
             services.Replace(new ServiceDescriptor(

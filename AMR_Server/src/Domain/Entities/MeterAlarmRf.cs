@@ -22,9 +22,9 @@ namespace AMR_Server.Domain.Entities
         public decimal MeterAlarmId { get; set; }
 
         public virtual AlarmCode Alarm { get; set; }
-        public virtual Users CreatedUser { get; set; }
+        public virtual UserBasicData CreatedUser { get; set; }
         public virtual Meter Meter { get; set; }
         public virtual MeterType MeterType { get; set; }
-        public virtual Users UpdatedUser { get; set; }
+        public virtual UserBasicData UpdatedUser { get; set; }
     }
 }

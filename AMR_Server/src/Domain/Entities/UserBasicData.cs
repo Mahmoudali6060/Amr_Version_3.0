@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace AMR_Server.Domain.Entities
 {
-    public partial class Users
+    public partial class UserBasicData
     {
-        public Users()
+        public UserBasicData()
         {
             DeviceDmaCreatedUser = new HashSet<DeviceDma>();
             DeviceDmaUpdatedUser = new HashSet<DeviceDma>();
@@ -19,7 +19,7 @@ namespace AMR_Server.Domain.Entities
             GatewayConnectionUpdatedUser = new HashSet<GatewayConnection>();
             GatewayCreatedUser = new HashSet<Gateway>();
             GatewayUpdateUser = new HashSet<Gateway>();
-            InverseUpdatedUser = new HashSet<Users>();
+            InverseUpdatedUser = new HashSet<UserBasicData>();
             MeterAlarmCreatedUser = new HashSet<MeterAlarm>();
             MeterAlarmRfCreatedUser = new HashSet<MeterAlarmRf>();
             MeterAlarmRfUpdatedUser = new HashSet<MeterAlarmRf>();
@@ -74,8 +74,8 @@ namespace AMR_Server.Domain.Entities
         public DateTime? CreatedDate { get; set; }
         public short? UpdatedUserId { get; set; }
         public DateTime? UpdatedDate { get; set; }
-
-        public virtual Users UpdatedUser { get; set; }
+        public string AspNetUserId { get; set; }
+        public virtual UserBasicData UpdatedUser { get; set; }
         public virtual ICollection<DeviceDma> DeviceDmaCreatedUser { get; set; }
         public virtual ICollection<DeviceDma> DeviceDmaUpdatedUser { get; set; }
         public virtual ICollection<DeviceGroup> DeviceGroupCreatedUser { get; set; }
@@ -88,7 +88,7 @@ namespace AMR_Server.Domain.Entities
         public virtual ICollection<GatewayConnection> GatewayConnectionUpdatedUser { get; set; }
         public virtual ICollection<Gateway> GatewayCreatedUser { get; set; }
         public virtual ICollection<Gateway> GatewayUpdateUser { get; set; }
-        public virtual ICollection<Users> InverseUpdatedUser { get; set; }
+        public virtual ICollection<UserBasicData> InverseUpdatedUser { get; set; }
         public virtual ICollection<MeterAlarm> MeterAlarmCreatedUser { get; set; }
         public virtual ICollection<MeterAlarmRf> MeterAlarmRfCreatedUser { get; set; }
         public virtual ICollection<MeterAlarmRf> MeterAlarmRfUpdatedUser { get; set; }

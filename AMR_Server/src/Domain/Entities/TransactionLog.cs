@@ -15,6 +15,6 @@ namespace AMR_Server.Domain.Entities
 
         public virtual Page Page { get; set; }
         public virtual Privilege Privilege { get; set; }
-        public virtual Users User { get; set; }
+        public virtual UserBasicData User { get; set; }
     }
 }

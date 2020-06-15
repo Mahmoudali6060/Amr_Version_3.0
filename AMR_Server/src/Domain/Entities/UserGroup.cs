@@ -15,9 +15,9 @@ namespace AMR_Server.Domain.Entities
         public decimal? UpdatedDate { get; set; }
         public decimal? DeviceGroupId { get; set; }
 
-        public virtual Users CreatedUser { get; set; }
+        public virtual UserBasicData CreatedUser { get; set; }
         public virtual DeviceGroup DeviceGroup { get; set; }
-        public virtual Users UpdatedUserDNavigation { get; set; }
-        public virtual Users User { get; set; }
+        public virtual UserBasicData UpdatedUserDNavigation { get; set; }
+        public virtual UserBasicData User { get; set; }
     }
 }

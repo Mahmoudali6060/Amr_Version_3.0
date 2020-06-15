@@ -23,8 +23,8 @@ namespace AMR_Server.Domain.Entities
         public DateTime? UpdatedDate { get; set; }
         public decimal? ConversionFactor { get; set; }
 
-        public virtual Users CreatedUser { get; set; }
-        public virtual Users UpdatedUser { get; set; }
+        public virtual UserBasicData CreatedUser { get; set; }
+        public virtual UserBasicData UpdatedUser { get; set; }
         public virtual ICollection<MeterReading> MeterReading { get; set; }
     }
 }

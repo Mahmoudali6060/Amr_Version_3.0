@@ -21,8 +21,8 @@ namespace AMR_Server.Domain.Entities
         public bool? IsAutomatic { get; set; }
         public bool? IsSingle { get; set; }
 
-        public virtual Users CreatedUser { get; set; }
-        public virtual Users UpdatedUser { get; set; }
+        public virtual UserBasicData CreatedUser { get; set; }
+        public virtual UserBasicData UpdatedUser { get; set; }
         public virtual ICollection<DeviceQueueAction> DeviceQueueAction { get; set; }
     }
 }

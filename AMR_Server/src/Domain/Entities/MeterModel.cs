@@ -25,9 +25,9 @@ namespace AMR_Server.Domain.Entities
         public decimal? MaxAcceptedReading { get; set; }
         public string ConnectionType { get; set; }
 
-        public virtual Users CreatedUser { get; set; }
+        public virtual UserBasicData CreatedUser { get; set; }
         public virtual MeterType DeviceType { get; set; }
-        public virtual Users UpdatedUser { get; set; }
+        public virtual UserBasicData UpdatedUser { get; set; }
         public virtual MeterVendor Vendor { get; set; }
         public virtual ICollection<Gateway> Gateway { get; set; }
         public virtual ICollection<Meter> Meter { get; set; }

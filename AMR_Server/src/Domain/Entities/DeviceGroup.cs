@@ -32,9 +32,9 @@ namespace AMR_Server.Domain.Entities
         public decimal? CityId { get; set; }
 
         public virtual City City { get; set; }
-        public virtual Users CreatedUser { get; set; }
+        public virtual UserBasicData CreatedUser { get; set; }
         public virtual DeviceGroup Parent { get; set; }
-        public virtual Users UpdatedUser { get; set; }
+        public virtual UserBasicData UpdatedUser { get; set; }
         public virtual ICollection<Gateway> Gateway { get; set; }
         public virtual ICollection<DeviceGroup> InverseParent { get; set; }
         public virtual ICollection<Meter> Meter { get; set; }

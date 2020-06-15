@@ -22,10 +22,10 @@ namespace AMR_Server.Domain.Entities
         public DateTime? UpdatedDate { get; set; }
 
         public virtual AlarmCode AlarmCode { get; set; }
-        public virtual Users CreatedUser { get; set; }
+        public virtual UserBasicData CreatedUser { get; set; }
         public virtual Meter Meter { get; set; }
         public virtual DeviceGroup MeterGroup { get; set; }
         public virtual MeterType MeterType { get; set; }
-        public virtual Users UpdatedUser { get; set; }
+        public virtual UserBasicData UpdatedUser { get; set; }
     }
 }

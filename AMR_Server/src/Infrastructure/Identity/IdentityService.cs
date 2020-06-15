@@ -13,7 +13,7 @@ using System;
 using Infrastructure.Security;
 using AMR_Server.Infrastructure.Persistence;
 using AMR_Server.Domain.Entities;
-using AMR_Server.Infrastructure.Persistence;
+using AMR_Server.Infrastructure.Configurations;
 
 namespace AMR_Server.Infrastructure.Identity
 {
@@ -21,11 +21,12 @@ namespace AMR_Server.Infrastructure.Identity
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly AmrDbContext _context;
-
-        public IdentityService(UserManager<ApplicationUser> userManager, AmrDbContext context)
+        private readonly Settings _settings;
+        public IdentityService(UserManager<ApplicationUser> userManager, AmrDbContext context, Settings settings)
         {
             _userManager = userManager;
             _context = context;
+            _settings = settings;
         }
 
         public async Task<string> Register(string username, string password)
@@ -105,7 +106,7 @@ namespace AMR_Server.Infrastructure.Identity
 
         public async Task<string> AuthenticateAD(string userName, string password)
         {
-            using (var context = new PrincipalContext(ContextType.Domain, "197.50.225.151", userName, password))
+            using (var context = new PrincipalContext(ContextType.Domain, _settings.PrincipalContextName, userName, password))
             {
                 if (context.ValidateCredentials(userName, password))
                 {

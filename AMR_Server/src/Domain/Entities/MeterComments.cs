@@ -20,9 +20,9 @@ namespace AMR_Server.Domain.Entities
         public DateTime? ReviewedDate { get; set; }
         public string ReviewText { get; set; }
 
-        public virtual Users CreatedUser { get; set; }
+        public virtual UserBasicData CreatedUser { get; set; }
         public virtual Meter Meter { get; set; }
-        public virtual Users ReviewedUser { get; set; }
-        public virtual Users UpdateUser { get; set; }
+        public virtual UserBasicData ReviewedUser { get; set; }
+        public virtual UserBasicData UpdateUser { get; set; }
     }
 }

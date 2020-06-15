@@ -89,8 +89,7 @@ namespace AMR_Server.Infrastructure.Persistence
         public virtual DbSet<Unit> Unit { get; set; }
         public virtual DbSet<UserGroup> UserGroup { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
-        //public virtual DbSet<Users> Users { get; set; }
-
+        public DbSet<UserBasicData> UserBasicData { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -2979,7 +2978,7 @@ namespace AMR_Server.Infrastructure.Persistence
                     .HasConstraintName("USER_ROLE_FK1");
             });
 
-            modelBuilder.Entity<Users>(entity =>
+            modelBuilder.Entity<UserBasicData>(entity =>
             {
                 entity.HasKey(e => e.UserId)
                     .HasName("USERS_PK");

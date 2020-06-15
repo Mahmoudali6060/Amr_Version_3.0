@@ -54,12 +54,12 @@ namespace AMR_Server.Domain.Entities
         public string FtpGatewayFolderName { get; set; }
         public bool? FtpIsFolderCreated { get; set; }
 
-        public virtual Users ApprovedUser { get; set; }
-        public virtual Users CreatedUser { get; set; }
+        public virtual UserBasicData ApprovedUser { get; set; }
+        public virtual UserBasicData CreatedUser { get; set; }
         public virtual DeviceGroup Group { get; set; }
         public virtual MeterModel Model { get; set; }
         public virtual SimCardList SimCardNoNavigation { get; set; }
-        public virtual Users UpdateUser { get; set; }
+        public virtual UserBasicData UpdateUser { get; set; }
         public virtual MeterVendor Vendor { get; set; }
         public virtual MeterGatewayConfig MeterGatewayConfigMeterGatewayConfigNavigation { get; set; }
         public virtual ICollection<DeviceQueueAction> DeviceQueueAction { get; set; }

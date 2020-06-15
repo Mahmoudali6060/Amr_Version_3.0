@@ -10,6 +10,6 @@ namespace AMR_Server.Domain.Entities
         public decimal? RoleId { get; set; }
 
         public virtual Role Role { get; set; }
-        public virtual Users User { get; set; }
+        public virtual UserBasicData User { get; set; }
     }
 }
