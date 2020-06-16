@@ -15,15 +15,15 @@ export class AuthService {
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
     this.baseUrl = environment.baseServiceUrl;
   }
-  isUserAuthenticated() {
-    let token: string = localStorage.getItem("jwt");
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
-      return true;
-    }
-    else {
-      return false;
-    }
+  
+
+  public isAuthenticated(): boolean {
+    const token = localStorage.getItem('token');
+    // Check whether the token is expired and return
+    // true or false
+    return !this.jwtHelper.isTokenExpired(token);
   }
+
 
   login(model: any) {
     return this.http.post(`${this.baseUrl}Api/Account/Login`, model, {

@@ -18,7 +18,6 @@ import { PaginationComponent } from '../shared/components/pagination/pagination.
 import { DataListComponent } from '../shared/components/data-list/data-list.component';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { AuthGuardService } from './guards/auth-guard.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HelperService } from './services/helper.service';
 import { ExcelService } from 'src/app/shared/services/excel.service';
@@ -82,7 +81,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   providers: [
     BsModalService,
     DatePipe,
-    AuthGuardService,
     HelperService,
     ExcelService,
     DeviceVendorService,
