@@ -1,6 +1,6 @@
 export class DataSourceModel {
-    public PageNumber: number = 1;
     public PageSize: number = 3;
+    public CurrentPage: number = 1;
     public Filter: any = null;
-    public Keyword: string;
+    public Keyword: string = null;
 }

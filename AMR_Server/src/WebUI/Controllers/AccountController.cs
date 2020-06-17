@@ -22,7 +22,7 @@ namespace AMR_Server.WebUI.Controllers
         [HttpPost]
         [Route("Register")]
         [AllowAnonymous]
-        public async Task<ActionResult<string>> Register(RegisterCommand command)
+        public async Task<ActionResult<RegisterCommand>> Register(RegisterCommand command)
         {
             return await Mediator.Send(command);
         }

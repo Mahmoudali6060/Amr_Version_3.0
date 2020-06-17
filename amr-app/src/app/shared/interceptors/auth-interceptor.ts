@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-import { AuthGuardService } from 'src/app/shared/guards/auth-guard.service';
+import { AuthService } from 'src/app/modules/authentication/services/auth.service';
 
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-    constructor(private auth: AuthGuardService) { }
+    constructor(private auth: AuthService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
         let token = this.auth.getToken() // auth is provided via constructor.

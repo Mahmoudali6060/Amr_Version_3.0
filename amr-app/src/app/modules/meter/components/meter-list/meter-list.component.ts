@@ -28,21 +28,18 @@ export class MeterListComponent implements OnInit {
 		private excelService: ExcelService,
 		private reportService: ReportService,
 		private dialog: MatDialog) {
-		this.dataSource.PageNumber = 1;
+		this.dataSource.CurrentPage = 1;
 		pdfMake.vfs = pdfFonts.pdfMake.vfs;
 	}
 
 	ngOnInit() {
 		this.getAllMeterDetails();
-		// debugger;
-		// this.getMeterVendorDetailsById();
+		this.dataSource.Keyword=null;
 	}
 
 	getAllMeterDetails() {
 		this.meterService.getAllMetersAsync(this.dataSource).subscribe((res) => {
-			this.allMeter = res;
-			// this.setNewMeters(res);
-			// console.log(res);
+			 this.setNewMeters(res);
 		});
 	}
 
@@ -57,7 +54,7 @@ export class MeterListComponent implements OnInit {
 	}
 
 	onScroll() {
-		this.dataSource.PageNumber = this.dataSource.PageNumber + 1;
+		this.dataSource.CurrentPage = this.dataSource.CurrentPage + 1;
 		this.getAllMeterDetails();
 	}
 	public search() {

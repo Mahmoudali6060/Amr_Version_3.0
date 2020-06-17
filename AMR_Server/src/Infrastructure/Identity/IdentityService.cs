@@ -14,6 +14,7 @@ using Infrastructure.Security;
 using AMR_Server.Infrastructure.Persistence;
 using AMR_Server.Domain.Entities;
 using AMR_Server.Infrastructure.Configurations;
+using Microsoft.Extensions.Options;
 
 namespace AMR_Server.Infrastructure.Identity
 {
@@ -21,8 +22,8 @@ namespace AMR_Server.Infrastructure.Identity
     {
         private readonly UserManager<ApplicationUser> _userManager;//To access AspNetUsers table (Identity table)  
         private readonly AmrDbContext _context;//to Access other tables in context such as UserBasicData
-        private readonly Settings _settings;//Getting of values from appsettings.json file 
-        public IdentityService(UserManager<ApplicationUser> userManager, AmrDbContext context, Settings settings)
+        private readonly IOptions<Settings> _settings;//Getting of values from appsettings.json file 
+        public IdentityService(UserManager<ApplicationUser> userManager, AmrDbContext context, IOptions<Settings> settings)
         {
             _userManager = userManager;
             _context = context;
@@ -33,8 +34,12 @@ namespace AMR_Server.Infrastructure.Identity
         public async Task<string> Register(string username, string password)
         {
             var result = await CreateUserAsync(username, password);//Insert row in AspNetUsers (Identity)
-            await CreateUserBasicDataAsync(result.UserId, username);//Insert row in UserBasicData table (Details data about user)
-            return GenerateToken(result.UserId);//Generate Token if Usser has been created
+            if (result.Result.Succeeded)
+            {
+                await CreateUserBasicDataAsync(result.UserId, username);//Insert row in UserBasicData table (Details data about user)
+                return GenerateToken(result.UserId);//Generate Token if Usser has been created
+            }
+            return null;
         }
         public async Task<string> Login(string username, string password)
         {
@@ -82,7 +87,7 @@ namespace AMR_Server.Infrastructure.Identity
         public async Task<string> AuthenticateAD(string userName, string password)
         {
             //Check if Username and Password in Domain or no (Active Directory)
-            using (var context = new PrincipalContext(ContextType.Domain, _settings.PrincipalContextName, userName, password))
+            using (var context = new PrincipalContext(ContextType.Domain, _settings.Value.PrincipalContextName, userName, password))
             {
                 if (context.ValidateCredentials(userName, password))
                 {
@@ -101,7 +106,7 @@ namespace AMR_Server.Infrastructure.Identity
         {
             UserBasicData user = new UserBasicData()
             {
-                AspNetUserId = aspNetUserId,
+                Aspnetuserid = aspNetUserId,
                 UserName = username
             };
             await _context.UserBasicData.AddAsync(user);
@@ -112,11 +117,12 @@ namespace AMR_Server.Infrastructure.Identity
         {
             if (foundUser != null)
             {
-                var user = _userManager.Users.SingleOrDefault(x => x.UserName == foundUser.SamAccountName && x.PasswordHash == UserManagerExtensions.EncodePasswordToBase64(UserManagerExtensions.EncodePasswordToBase64(password)));
+                var user = _userManager.Users.SingleOrDefault(x => x.UserName == foundUser.SamAccountName);
                 if (user == null)
                 {
+                    password = "StingRay@123";//Complex Password for Active Directory >>>[TO-DO] It is so bad solution now,So you can solve this problem later
                     var result = await CreateUserAsync(foundUser.SamAccountName, password);
-                    int userId = await CreateUserBasicDataAsync(foundUser.Guid.ToString(), foundUser.SamAccountName); //Insert row in UserBasicData table
+                    int userId = await CreateUserBasicDataAsync(result.UserId, foundUser.SamAccountName); //Insert row in UserBasicData table
                 }
                 return GenerateToken(foundUser.Guid.ToString());
             }

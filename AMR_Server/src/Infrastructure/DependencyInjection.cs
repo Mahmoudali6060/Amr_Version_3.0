@@ -1,4 +1,5 @@
 ﻿using AMR_Server.Application.Common.Interfaces;
+using AMR_Server.Infrastructure.Configurations;
 using AMR_Server.Infrastructure.Identity;
 using AMR_Server.Infrastructure.Persistence;
 using AMR_Server.Infrastructure.Services;
@@ -13,32 +14,25 @@ namespace AMR_Server.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            //if (configuration.GetValue<bool>("UseInMemoryDatabase"))
-            //{
-            //    services.AddDbContext<AmrDbContext>(options =>
-            //        options.UseInMemoryDatabase("Clean_ArchitectureDb"));
-            //}
-            //else
-            //{
-            //    services.AddDbContext<AmrDbContext>(options =>
-            //        options.UseSqlServer(
-            //            configuration.GetConnectionString("DefaultConnection"),
-            //            b => b.MigrationsAssembly(typeof(AmrDbContext).Assembly.FullName)));
-            //}
+            services.Configure<Settings>(configuration.GetSection("Settings"));//To set Settings section from AppSettings.json to Settings class
+
             services.AddDbContext<AmrDbContext>(options =>
-                                      
                   options.UseOracle(configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<IdentityDbContext>(options =>
+           options.UseOracle(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IAmrDbContext>(provider => provider.GetService<AmrDbContext>());
 
-                services.AddDefaultIdentity<ApplicationUser>()
-                    .AddEntityFrameworkStores<AmrDbContext>();
-            
+            services.AddDefaultIdentity<ApplicationUser>()
+                .AddEntityFrameworkStores<IdentityDbContext>();
+
             services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, AmrDbContext>();
+                .AddApiAuthorization<ApplicationUser, IdentityDbContext>();
 
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<IIdentityService, IdentityService>();
+            //services.AddTransient<ISettings, Settings>();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();

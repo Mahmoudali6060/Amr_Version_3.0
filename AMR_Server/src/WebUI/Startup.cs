@@ -46,7 +46,6 @@ namespace AMR_Server.WebUI
             });
             //>>>END Cors Origin
 
-            services.Configure<Settings>(Configuration.GetSection("Settings"));//To set Settings section from AppSettings.json to Settings class
 
             // Replace the existing scoped IPasswordHasher<> implementation
             services.Replace(new ServiceDescriptor(

@@ -1,57 +1,40 @@
-﻿using AMR_Server.Application.Common.Interfaces;
-using AMR_Server.Domain.Common;
+﻿using System;
+using AMR_Server.Application.Common.Interfaces;
 using AMR_Server.Domain.Entities;
-using AMR_Server.Infrastructure.Identity;
-using IdentityServer4.EntityFramework.Options;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.Options;
-using System.Data;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AMR_Server.Infrastructure.Persistence
 {
-    public class AmrDbContext : ApiAuthorizationDbContext<ApplicationUser>, IAmrDbContext
+    public partial class AmrDbContext : DbContext, IAmrDbContext
     {
-        private readonly ICurrentUserService _currentUserService;
-        private readonly IDateTime _dateTime;
-        private IDbContextTransaction _currentTransaction;
-
-        public AmrDbContext(
-            DbContextOptions options,
-            IOptions<OperationalStoreOptions> operationalStoreOptions,
-            ICurrentUserService currentUserService,
-            IDateTime dateTime) : base(options, operationalStoreOptions)
+        public AmrDbContext()
         {
-            _currentUserService = currentUserService;
-            _dateTime = dateTime;
         }
 
-
-       
-        //public DbSet<User> Users { get; set; }
+        public AmrDbContext(DbContextOptions<AmrDbContext> options)
+            : base(options)
+        {
+        }
 
         public virtual DbSet<AlarmCategory> AlarmCategory { get; set; }
         public virtual DbSet<AlarmCode> AlarmCode { get; set; }
         public virtual DbSet<AlarmLevel> AlarmLevel { get; set; }
         public virtual DbSet<Area> Area { get; set; }
-        //public virtual DbSet<Aspnetroles> Aspnetroles { get; set; }
-        //public virtual DbSet<Aspnetuserclaims> Aspnetuserclaims { get; set; }
-        //public virtual DbSet<Aspnetuserlogins> Aspnetuserlogins { get; set; }
-        //public virtual DbSet<Aspnetuserroles> Aspnetuserroles { get; set; }
-        //public virtual DbSet<Aspnetusers> Aspnetusers { get; set; }
-        //public virtual DbSet<Aspnetusertokens> Aspnetusertokens { get; set; }
+        public virtual DbSet<Aspnetroleclaims> Aspnetroleclaims { get; set; }
+        public virtual DbSet<Aspnetroles> Aspnetroles { get; set; }
+        public virtual DbSet<Aspnetuserclaims> Aspnetuserclaims { get; set; }
+        public virtual DbSet<Aspnetuserlogins> Aspnetuserlogins { get; set; }
+        public virtual DbSet<Aspnetuserroles> Aspnetuserroles { get; set; }
+        public virtual DbSet<Aspnetusers> Aspnetusers { get; set; }
+        public virtual DbSet<Aspnetusertokens> Aspnetusertokens { get; set; }
         public virtual DbSet<CcbMeters> CcbMeters { get; set; }
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<ConnectingStatus> ConnectingStatus { get; set; }
         public virtual DbSet<DeviceDma> DeviceDma { get; set; }
         public virtual DbSet<DeviceGroup> DeviceGroup { get; set; }
         public virtual DbSet<DeviceQueueAction> DeviceQueueAction { get; set; }
-        public virtual DbSet<DeviceCodes> DeviceCodes { get; set; }
+        public virtual DbSet<Devicecodes> Devicecodes { get; set; }
         public virtual DbSet<EditableColumn> EditableColumn { get; set; }
         public virtual DbSet<ErrorInfo> ErrorInfo { get; set; }
         public virtual DbSet<ErrorLog> ErrorLog { get; set; }
@@ -87,118 +70,21 @@ namespace AMR_Server.Infrastructure.Persistence
         public virtual DbSet<SimCardList> SimCardList { get; set; }
         public virtual DbSet<TransactionLog> TransactionLog { get; set; }
         public virtual DbSet<Unit> Unit { get; set; }
+        public virtual DbSet<UserBasicData> UserBasicData { get; set; }
         public virtual DbSet<UserGroup> UserGroup { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
-        public DbSet<UserBasicData> UserBasicData { get; set; }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
+            if (!optionsBuilder.IsConfigured)
             {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.Entity.CreatedBy = _currentUserService.UserId;
-                        entry.Entity.Created = _dateTime.Now;
-                        break;
-                    case EntityState.Modified:
-                        entry.Entity.LastModifiedBy = _currentUserService.UserId;
-                        entry.Entity.LastModified = _dateTime.Now;
-                        break;
-                }
-            }
-
-            return base.SaveChangesAsync(cancellationToken);
-        }
-
-        public async Task BeginTransactionAsync()
-        {
-            if (_currentTransaction != null)
-            {
-                return;
-            }
-
-            _currentTransaction = await base.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted).ConfigureAwait(false);
-        }
-
-        public async Task CommitTransactionAsync()
-        {
-            try
-            {
-                await SaveChangesAsync().ConfigureAwait(false);
-
-                _currentTransaction?.Commit();
-            }
-            catch
-            {
-                RollbackTransaction();
-                throw;
-            }
-            finally
-            {
-                if (_currentTransaction != null)
-                {
-                    _currentTransaction.Dispose();
-                    _currentTransaction = null;
-                }
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseOracle("User Id=AMR;Password=password;Data Source=localhost:1521/orcl;");
             }
         }
-
-        public void RollbackTransaction()
-        {
-            try
-            {
-                _currentTransaction?.Rollback();
-            }
-            finally
-            {
-                if (_currentTransaction != null)
-                {
-                    _currentTransaction.Dispose();
-                    _currentTransaction = null;
-                }
-            }
-        }
-
-        //protected override void OnModelCreating(ModelBuilder builder)
-        //{
-        //    builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-        //    builder.HasDefaultSchema("AMR");
-        //    builder.Entity<CITY>()
-        //      .HasKey(p => new { p.CITY_ID });
-
-        //    base.OnModelCreating(builder);
-        //    builder.Entity<ApplicationUser>().ToTable("ASPNETUSERS");
-        //    builder.Entity<IdentityRole>().ToTable("ASPNETROLES");
-        //    builder.Entity<IdentityUserRole<string>>().ToTable("ASPNETUSERROLES");
-        //    builder.Entity<IdentityUserClaim<string>>().ToTable("ASPNETUSERCLAIMS");
-        //    builder.Entity<IdentityUserLogin<string>>().ToTable("ASPNETUSERLOGINS");
-        //    builder.Entity<IdentityUserToken<string>>().ToTable("ASPNETUSERTOKENS");
-        //    builder.Entity<IdentityRoleClaim<string>>().ToTable("ASPNETROLECLAIMS");
-
-
-
-        //}
-
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-            modelBuilder.HasDefaultSchema("AMR");
-
-
-            base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<ApplicationUser>().ToTable("ASPNETUSERS");
-            //modelBuilder.Entity<IdentityRole>().ToTable("ASPNETROLES");
-            //modelBuilder.Entity<IdentityUserRole<string>>().ToTable("ASPNETUSERROLES");
-            //modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("ASPNETUSERCLAIMS");
-            //modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("ASPNETUSERLOGINS");
-            //modelBuilder.Entity<IdentityUserToken<string>>().ToTable("ASPNETUSERTOKENS");
-            //modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("ASPNETROLECLAIMS");
-
             modelBuilder.HasAnnotation("Relational:DefaultSchema", "AMR");
 
             modelBuilder.Entity<AlarmCategory>(entity =>
@@ -369,7 +255,7 @@ namespace AMR_Server.Infrastructure.Persistence
                 entity.Property(e => e.UpdatedUserId).HasColumnName("UPDATED_USER_ID");
             });
 
-            modelBuilder.Entity<IdentityUserClaim<string>>(entity =>
+            modelBuilder.Entity<Aspnetroleclaims>(entity =>
             {
                 entity.ToTable("ASPNETROLECLAIMS");
 
@@ -379,17 +265,17 @@ namespace AMR_Server.Infrastructure.Persistence
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.ClaimType).HasColumnName("CLAIMTYPE");
+                entity.Property(e => e.Claimtype).HasColumnName("CLAIMTYPE");
 
-                entity.Property(e => e.ClaimValue).HasColumnName("CLAIMVALUE");
+                entity.Property(e => e.Claimvalue).HasColumnName("CLAIMVALUE");
 
-                //entity.Property(e => e.RoleId)
-                //    .IsRequired()
-                //    .HasColumnName("ROLEID")
-                //    .HasMaxLength(450);
+                entity.Property(e => e.Roleid)
+                    .IsRequired()
+                    .HasColumnName("ROLEID")
+                    .HasMaxLength(450);
             });
 
-            modelBuilder.Entity<IdentityRole<string>>(entity =>
+            modelBuilder.Entity<Aspnetroles>(entity =>
             {
                 entity.ToTable("ASPNETROLES");
 
@@ -399,18 +285,18 @@ namespace AMR_Server.Infrastructure.Persistence
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.ConcurrencyStamp).HasColumnName("CONCURRENCYSTAMP");
+                entity.Property(e => e.Concurrencystamp).HasColumnName("CONCURRENCYSTAMP");
 
                 entity.Property(e => e.Name)
                     .HasColumnName("NAME")
                     .HasMaxLength(256);
 
-                entity.Property(e => e.NormalizedName)
+                entity.Property(e => e.Normalizedname)
                     .HasColumnName("NORMALIZEDNAME")
                     .HasMaxLength(256);
             });
 
-            modelBuilder.Entity<IdentityUserClaim<string>>(entity =>
+            modelBuilder.Entity<Aspnetuserclaims>(entity =>
             {
                 entity.ToTable("ASPNETUSERCLAIMS");
 
@@ -420,58 +306,58 @@ namespace AMR_Server.Infrastructure.Persistence
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.ClaimType).HasColumnName("CLAIMTYPE");
+                entity.Property(e => e.Claimtype).HasColumnName("CLAIMTYPE");
 
-                entity.Property(e => e.ClaimValue).HasColumnName("CLAIMVALUE");
+                entity.Property(e => e.Claimvalue).HasColumnName("CLAIMVALUE");
 
-                entity.Property(e => e.UserId)
+                entity.Property(e => e.Userid)
                     .IsRequired()
                     .HasColumnName("USERID")
                     .HasMaxLength(450);
             });
 
-            modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
+            modelBuilder.Entity<Aspnetuserlogins>(entity =>
             {
-                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
+                entity.HasKey(e => new { e.Loginprovider, e.Providerkey });
 
                 entity.ToTable("ASPNETUSERLOGINS");
 
-                entity.HasIndex(e => new { e.LoginProvider, e.ProviderKey })
+                entity.HasIndex(e => new { e.Loginprovider, e.Providerkey })
                     .HasName("PK_ASPNETUSERLOGINS")
                     .IsUnique();
 
-                entity.Property(e => e.LoginProvider)
+                entity.Property(e => e.Loginprovider)
                     .HasColumnName("LOGINPROVIDER")
                     .HasMaxLength(128);
 
-                entity.Property(e => e.ProviderKey)
+                entity.Property(e => e.Providerkey)
                     .HasColumnName("PROVIDERKEY")
                     .HasMaxLength(128);
 
-                entity.Property(e => e.ProviderDisplayName).HasColumnName("PROVIDERDISPLAYNAME");
+                entity.Property(e => e.Providerdisplayname).HasColumnName("PROVIDERDISPLAYNAME");
 
-                entity.Property(e => e.UserId)
+                entity.Property(e => e.Userid)
                     .IsRequired()
                     .HasColumnName("USERID")
                     .HasMaxLength(450);
             });
 
-            modelBuilder.Entity<IdentityUserRole<string>>(entity =>
+            modelBuilder.Entity<Aspnetuserroles>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.RoleId });
+                entity.HasKey(e => new { e.Userid, e.Roleid });
 
                 entity.ToTable("ASPNETUSERROLES");
 
-                entity.HasIndex(e => new { e.UserId, e.RoleId })
+                entity.HasIndex(e => new { e.Userid, e.Roleid })
                     .HasName("PK_ASPNETUSERROLES")
                     .IsUnique();
 
-                entity.Property(e => e.UserId).HasColumnName("USERID");
+                entity.Property(e => e.Userid).HasColumnName("USERID");
 
-                entity.Property(e => e.RoleId).HasColumnName("ROLEID");
+                entity.Property(e => e.Roleid).HasColumnName("ROLEID");
             });
 
-            modelBuilder.Entity<ApplicationUser>(entity =>
+            modelBuilder.Entity<Aspnetusers>(entity =>
             {
                 entity.ToTable("ASPNETUSERS");
 
@@ -479,68 +365,68 @@ namespace AMR_Server.Infrastructure.Persistence
                     .HasName("PK_ASPNETUSERS")
                     .IsUnique();
 
-                entity.HasIndex(e => e.NormalizedUserName)
+                entity.HasIndex(e => e.Normalizedusername)
                     .HasName("USERNAMEINDEX")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.AccessFailedCount).HasColumnName("ACCESSFAILEDCOUNT");
+                entity.Property(e => e.Accessfailedcount).HasColumnName("ACCESSFAILEDCOUNT");
 
-                entity.Property(e => e.ConcurrencyStamp).HasColumnName("CONCURRENCYSTAMP");
+                entity.Property(e => e.Concurrencystamp).HasColumnName("CONCURRENCYSTAMP");
 
                 entity.Property(e => e.Email)
                     .HasColumnName("EMAIL")
                     .HasMaxLength(256);
 
-                entity.Property(e => e.EmailConfirmed).HasColumnName("EMAILCONFIRMED");
+                entity.Property(e => e.Emailconfirmed).HasColumnName("EMAILCONFIRMED");
 
-                entity.Property(e => e.LockoutEnabled).HasColumnName("LOCKOUTENABLED");
+                entity.Property(e => e.Lockoutenabled).HasColumnName("LOCKOUTENABLED");
 
-                entity.Property(e => e.LockoutEnd)
+                entity.Property(e => e.Lockoutend)
                     .HasColumnName("LOCKOUTEND")
                     .HasColumnType("TIMESTAMP(6) WITH TIME ZONE");
 
-                entity.Property(e => e.NormalizedEmail)
+                entity.Property(e => e.Normalizedemail)
                     .HasColumnName("NORMALIZEDEMAIL")
                     .HasMaxLength(256);
 
-                entity.Property(e => e.NormalizedUserName)
+                entity.Property(e => e.Normalizedusername)
                     .HasColumnName("NORMALIZEDUSERNAME")
                     .HasMaxLength(256);
 
-                entity.Property(e => e.PasswordHash).HasColumnName("PASSWORDHASH");
+                entity.Property(e => e.Passwordhash).HasColumnName("PASSWORDHASH");
 
-                entity.Property(e => e.PhoneNumber).HasColumnName("PHONENUMBER");
+                entity.Property(e => e.Phonenumber).HasColumnName("PHONENUMBER");
 
-                entity.Property(e => e.PhoneNumberConfirmed).HasColumnName("PHONENUMBERCONFIRMED");
+                entity.Property(e => e.Phonenumberconfirmed).HasColumnName("PHONENUMBERCONFIRMED");
 
-                entity.Property(e => e.SecurityStamp).HasColumnName("SECURITYSTAMP");
+                entity.Property(e => e.Securitystamp).HasColumnName("SECURITYSTAMP");
 
-                entity.Property(e => e.TwoFactorEnabled).HasColumnName("TWOFACTORENABLED");
+                entity.Property(e => e.Twofactorenabled).HasColumnName("TWOFACTORENABLED");
 
-                entity.Property(e => e.UserName)
+                entity.Property(e => e.Username)
                     .HasColumnName("USERNAME")
                     .HasMaxLength(256);
             });
 
-            modelBuilder.Entity<IdentityUserToken<string>>(entity =>
+            modelBuilder.Entity<Aspnetusertokens>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.Name, e.LoginProvider });
+                entity.HasKey(e => new { e.Userid, e.Name, e.Loginprovider });
 
                 entity.ToTable("ASPNETUSERTOKENS");
 
-                entity.HasIndex(e => new { e.UserId, e.LoginProvider, e.Name })
+                entity.HasIndex(e => new { e.Userid, e.Loginprovider, e.Name })
                     .HasName("PK_ASPNETUSERTOKENS")
                     .IsUnique();
 
-                entity.Property(e => e.UserId).HasColumnName("USERID");
+                entity.Property(e => e.Userid).HasColumnName("USERID");
 
                 entity.Property(e => e.Name)
                     .HasColumnName("NAME")
                     .HasMaxLength(128);
 
-                entity.Property(e => e.LoginProvider)
+                entity.Property(e => e.Loginprovider)
                     .HasColumnName("LOGINPROVIDER")
                     .HasMaxLength(128);
 
@@ -869,7 +755,7 @@ namespace AMR_Server.Infrastructure.Persistence
                     .HasConstraintName("METER_QUEUE_ACTION_FK3");
             });
 
-            modelBuilder.Entity<DeviceCodes>(entity =>
+            modelBuilder.Entity<Devicecodes>(entity =>
             {
                 entity.HasKey(e => e.Usercode);
 
@@ -2894,6 +2780,126 @@ namespace AMR_Server.Infrastructure.Persistence
                     .HasConstraintName("UNIT_FK2");
             });
 
+            modelBuilder.Entity<UserBasicData>(entity =>
+            {
+                entity.HasKey(e => e.UserId)
+                    .HasName("USERS_PK");
+
+                entity.ToTable("USER_BASIC_DATA");
+
+                entity.HasIndex(e => e.UserId)
+                    .HasName("USERS_PK")
+                    .IsUnique();
+
+                entity.Property(e => e.UserId).HasColumnName("USER_ID");
+
+                entity.Property(e => e.Aspnetuserid)
+                    .HasColumnName("ASPNETUSERID")
+                    .HasMaxLength(450)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Column4)
+                    .HasColumnName("COLUMN4")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Comments)
+                    .HasColumnName("COMMENTS")
+                    .HasColumnType("VARCHAR2(2000)")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnName("CREATED_DATE")
+                    .HasColumnType("DATE")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedUserId)
+                    .HasColumnName("CREATED_USER_ID")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.DeleteStatus)
+                    .HasColumnName("DELETE_STATUS")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Email)
+                    .HasColumnName("EMAIL")
+                    .HasColumnType("VARCHAR2(50)")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.FamilyName)
+                    .HasColumnName("FAMILY_NAME")
+                    .HasColumnType("VARCHAR2(25)")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.FiledLogins)
+                    .HasColumnName("FILED_LOGINS")
+                    .HasColumnType("NUMBER(2)")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.FirstName)
+                    .HasColumnName("FIRST_NAME")
+                    .HasColumnType("VARCHAR2(25)")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.LastLoginDate)
+                    .HasColumnName("LAST_LOGIN_DATE")
+                    .HasColumnType("DATE")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.LastLoginIp)
+                    .HasColumnName("LAST_LOGIN_IP")
+                    .HasColumnType("VARCHAR2(20)")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.LastName)
+                    .HasColumnName("LAST_NAME")
+                    .HasColumnType("VARCHAR2(25)")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.MiddleName)
+                    .HasColumnName("MIDDLE_NAME")
+                    .HasColumnType("VARCHAR2(25)")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Mobile)
+                    .HasColumnName("MOBILE")
+                    .HasColumnType("VARCHAR2(20)")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Phone)
+                    .HasColumnName("PHONE")
+                    .HasColumnType("VARCHAR2(20)")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.UpdatedDate)
+                    .HasColumnName("UPDATED_DATE")
+                    .HasColumnType("DATE")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.UpdatedUserId)
+                    .HasColumnName("UPDATED_USER_ID")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.UserLanguageId)
+                    .HasColumnName("USER_LANGUAGE_ID")
+                    .HasColumnType("VARCHAR2(2)")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.UserName)
+                    .HasColumnName("USER_NAME")
+                    .HasColumnType("VARCHAR2(20)")
+                    .ValueGeneratedNever();
+
+                entity.HasOne(d => d.Aspnetuser)
+                    .WithMany(p => p.UserBasicData)
+                    .HasForeignKey(d => d.Aspnetuserid)
+                    .HasConstraintName("USERS_FK3");
+
+                entity.HasOne(d => d.UpdatedUser)
+                    .WithMany(p => p.InverseUpdatedUser)
+                    .HasForeignKey(d => d.UpdatedUserId)
+                    .HasConstraintName("USERS_FK2");
+            });
+
             modelBuilder.Entity<UserGroup>(entity =>
             {
                 entity.ToTable("USER_GROUP");
@@ -2978,96 +2984,11 @@ namespace AMR_Server.Infrastructure.Persistence
                     .HasConstraintName("USER_ROLE_FK1");
             });
 
-            modelBuilder.Entity<UserBasicData>(entity =>
-            {
-                entity.HasKey(e => e.UserId)
-                    .HasName("USERS_PK");
+            modelBuilder.HasSequence("USERS_DATA_SEQ");
 
-                entity.ToTable("USERS");
-
-                entity.HasIndex(e => e.UserId)
-                    .HasName("USERS_PK")
-                    .IsUnique();
-
-                entity.Property(e => e.UserId)
-                    .HasColumnName("USER_ID")
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.Column4).HasColumnName("COLUMN4");
-
-                entity.Property(e => e.Comments)
-                    .HasColumnName("COMMENTS")
-                    .HasColumnType("VARCHAR2(2000)");
-
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnName("CREATED_DATE")
-                    .HasColumnType("DATE");
-
-                entity.Property(e => e.CreatedUserId).HasColumnName("CREATED_USER_ID");
-
-                entity.Property(e => e.DeleteStatus).HasColumnName("DELETE_STATUS");
-
-                entity.Property(e => e.Email)
-                    .HasColumnName("EMAIL")
-                    .HasColumnType("VARCHAR2(50)");
-
-                entity.Property(e => e.FamilyName)
-                    .HasColumnName("FAMILY_NAME")
-                    .HasColumnType("VARCHAR2(25)");
-
-                entity.Property(e => e.FiledLogins)
-                    .HasColumnName("FILED_LOGINS")
-                    .HasColumnType("NUMBER(2)");
-
-                entity.Property(e => e.FirstName)
-                    .HasColumnName("FIRST_NAME")
-                    .HasColumnType("VARCHAR2(25)");
-
-                entity.Property(e => e.LastLoginDate)
-                    .HasColumnName("LAST_LOGIN_DATE")
-                    .HasColumnType("DATE");
-
-                entity.Property(e => e.LastLoginIp)
-                    .HasColumnName("LAST_LOGIN_IP")
-                    .HasColumnType("VARCHAR2(20)");
-
-                entity.Property(e => e.LastName)
-                    .HasColumnName("LAST_NAME")
-                    .HasColumnType("VARCHAR2(25)");
-
-                entity.Property(e => e.MiddleName)
-                    .HasColumnName("MIDDLE_NAME")
-                    .HasColumnType("VARCHAR2(25)");
-
-                entity.Property(e => e.Mobile)
-                    .HasColumnName("MOBILE")
-                    .HasColumnType("VARCHAR2(20)");
-
-                entity.Property(e => e.Phone)
-                    .HasColumnName("PHONE")
-                    .HasColumnType("VARCHAR2(20)");
-
-                entity.Property(e => e.UpdatedDate)
-                    .HasColumnName("UPDATED_DATE")
-                    .HasColumnType("DATE");
-
-                entity.Property(e => e.UpdatedUserId).HasColumnName("UPDATED_USER_ID");
-
-                entity.Property(e => e.UserLanguageId)
-                    .HasColumnName("USER_LANGUAGE_ID")
-                    .HasColumnType("VARCHAR2(2)");
-
-                entity.Property(e => e.UserName)
-                    .HasColumnName("USER_NAME")
-                    .HasColumnType("VARCHAR2(20)");
-
-                entity.HasOne(d => d.UpdatedUser)
-                    .WithMany(p => p.InverseUpdatedUser)
-                    .HasForeignKey(d => d.UpdatedUserId)
-                    .HasConstraintName("USERS_FK2");
-            });
-
+            OnModelCreatingPartial(modelBuilder);
         }
 
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

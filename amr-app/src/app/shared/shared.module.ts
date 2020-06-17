@@ -25,6 +25,7 @@ import { QuickDialogComponent } from 'src/app/shared/components/quick-dialog/qui
 import { QuickDialogService } from 'src/app/shared/services/quick-dialog.service';
 import { DeviceVendorService } from 'src/app/modules/meter/services/device-vendor.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
 
@@ -43,7 +44,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     OrderModule,
     NgbModule,
     MaterialModule,
-    MatDialogModule
+    MatDialogModule,
+    InfiniteScrollModule
   ],
 
   exports: [
@@ -64,7 +66,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     DataListComponent,
     MaterialModule,
     QuickDialogComponent,
-    MatDialogModule
+    MatDialogModule,
+    InfiniteScrollModule
     // ModalBasicComponent
   ],
   declarations: [

@@ -10,7 +10,7 @@ export class MeterService {
   constructor(private http: HttpClient, private httpHelperService: HttpHelperService) { }
 
   getAllMetersAsync(dataSource: DataSourceModel): Observable<any> {
-    return this.http.get<any>(`${this.httpHelperService.baseUrl}api/Meter/GetAllMetersAsync`);
+    return this.http.get<any>(`${this.httpHelperService.baseUrl}api/Meter/GetAllMetersAsync?pageSize=${dataSource.PageSize}&&currentPage=${dataSource.CurrentPage}&&keyword=${dataSource.Keyword}`);
   }
 
 }

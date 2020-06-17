@@ -14,9 +14,9 @@ namespace AMR_Server.WebUI.Controllers
     {
         [Route("GetAllMetersAsync")]
         [HttpGet]
-        public async Task<IActionResult> GetAllMetersAsync()
+        public async Task<IActionResult> GetAllMetersAsync(int pageSize, int currentPage, string keyword)
         {
-            var meters=await Mediator.Send(new GetAllMetersQuery());
+            var meters = await Mediator.Send(new GetAllMetersQuery() { PageSize = pageSize, CurrentPage = currentPage, Keyword = keyword });
             return Ok(meters);
         }
     }

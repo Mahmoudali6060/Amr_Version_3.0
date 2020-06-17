@@ -5,8 +5,24 @@
       <div class="panel-heading">
         <h3 class="panel-title">Meters</h3>
       </div>
+
       <div class="panel-body">
-        <table class="table table-bordered">
+        <div class="row">
+          <div class="col-lg-6">
+            <input type="text" id="Keywork" name="Keywork" [(ngModel)]="dataSource.Keyword" class="form-control" placeholder="{{ 'Keywork' | translate }}">
+          </div>
+          <div class="col-lg-2">
+            <button type="button" class="btn btn-info" (click)="search()" translate>Search</button>
+          </div>
+          <div class="col-lg-2">
+            <button type="button" class="btn btn-info" (click)="exportAsXLSX()" translate>Export To Excel</button>
+          </div>
+          <div class="col-lg-2">
+            <button type="button" class="btn btn-info" (click)="generatePdf()" translate>Export To PDF</button>
+          </div>
+        </div>
+
+        <table class="table table-bordered" id="meters">
           <thead>
             <tr>
               <th>#</th>
@@ -15,7 +31,7 @@
               <th>Street Name</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
             <tr *ngFor="let meter of allMeter;let i = index">
               <td>{{i+1}}</td>
               <td>{{meter.serialNo}}</td>

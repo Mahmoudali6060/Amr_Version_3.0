@@ -19,8 +19,11 @@ export class RegisterComponent {
     let userData = JSON.stringify(form.value);
     this.authService.register(userData).subscribe(response => {
       let token = (<any>response).token;
-      localStorage.setItem("jwt", token);
-      this.router.navigate(["/layout/dashboard"]);
+      if(token){
+        localStorage.setItem("jwt", token);
+        this.router.navigate(["/dashboard"]);
+      }
+      
     }, err => {
     });
   }

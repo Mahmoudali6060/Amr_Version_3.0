@@ -1,5 +1,4 @@
 ﻿using AMR_Server.Application.Common.Interfaces;
-using AMR_Server.Domain.Entities;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
@@ -17,6 +16,7 @@ namespace AMR_Server.Application.Meters.Queries
     {
         public int PageSize { get; set; }
         public int CurrentPage { get; set; }
+        public string Keyword { get; set; }
 
         public class GetAllMetersQueryHandler : IRequestHandler<GetAllMetersQuery, IEnumerable<MeterDto>>
         {
@@ -31,32 +31,41 @@ namespace AMR_Server.Application.Meters.Queries
 
             public async Task<IEnumerable<MeterDto>> Handle(GetAllMetersQuery request, CancellationToken cancellationToken)
             {
-                //return (from m in _context.Meter
-                //        join mv in _context.MeterVendor on m.VendorId equals mv.VendorId
-                //        select new MeterDto()
-                //        {
-                //            SerialNo = m.SerialNo,
-                //            StreetName = m.StreetName,
-                //            VendorName = mv.VendorName,
-                //            VendorId = mv.VendorId
-                //        })
-                //             .OrderBy(x => x.CreatedDate);
-                //.ToListAsync(cancellationToken);
-
-                var data = await _context.Meter
-        .Join(
-            _context.MeterVendor,
-            m => m.VendorId,
-            mv => mv.VendorId,
-            (m, mv) => new MeterDto()
-            {
-                SerialNo = m.SerialNo,
-                StreetName = m.StreetName,
-                VendorName = mv.VendorName,
-                VendorId = mv.VendorId
-            }
-        ).ToListAsync(cancellationToken);
-                return data;
+                if (string.IsNullOrEmpty(request.Keyword))
+                {
+                   return await _context.Meter
+                       .Join(
+                       _context.MeterVendor,
+                       m => m.VendorId,
+                       mv => mv.VendorId,
+                      (m, mv) => new MeterDto()
+                      {
+                          SerialNo = m.SerialNo,
+                          StreetName = m.StreetName,
+                          VendorName = mv.VendorName,
+                          VendorId = mv.VendorId
+                      }
+                       ).Skip((request.CurrentPage - 1) * request.PageSize).Take(request.PageSize)
+                       .ToListAsync(cancellationToken);
+                }
+                else
+                {
+                    return await _context.Meter
+                        .Where(x => x.StreetName.Contains(request.Keyword) || x.Vendor.VendorName.Contains(request.Keyword))
+                       .Join(
+                       _context.MeterVendor,
+                       m => m.VendorId,
+                       mv => mv.VendorId,
+                      (m, mv) => new MeterDto()
+                      {
+                          SerialNo = m.SerialNo,
+                          StreetName = m.StreetName,
+                          VendorName = mv.VendorName,
+                          VendorId = mv.VendorId
+                      }
+                       ).Skip((request.CurrentPage - 1) * request.PageSize).Take(request.PageSize)
+                       .ToListAsync(cancellationToken);
+                }
             }
         }
     }

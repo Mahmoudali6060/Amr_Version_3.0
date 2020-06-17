@@ -69,7 +69,7 @@ export class DataListComponent {
   //#region Pagination
   onChangePagination(data) {
     this.dataSourceModel.PageSize = data.recordPerPage;
-    this.dataSourceModel.PageNumber = data.currentPage;
+    this.dataSourceModel.CurrentPage = data.currentPage;
     this.changePagination.emit(this.dataSourceModel);
   }
   //#endregion

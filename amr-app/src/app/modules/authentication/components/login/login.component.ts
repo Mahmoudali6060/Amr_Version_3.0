@@ -25,7 +25,7 @@ export class LoginComponent {
       if(token){
         localStorage.setItem("jwt", token);
         this.invalidLogin = false;
-        this.router.navigate(["/layout/dashboard"]);
+        this.router.navigate(["/dashboard"]);
       }
       else{
         this.invalidLogin = true;
