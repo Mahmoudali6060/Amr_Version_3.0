@@ -46,7 +46,7 @@
     "faker": "^4.1.0",
     "file-saver": "^2.0.2",
     "jquery": "^3.4.1",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "jspdf-autotable": "^3.5.3",
     "local-devices": "^3.0.0",
     "ng-bootstrap-modal": "^1.1.19",
